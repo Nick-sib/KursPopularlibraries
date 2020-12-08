@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:layout_marginTop="@dimen/global_list_offset"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/ivEmployees"
+        android:layout_width="@dimen/recycler_item_image_size"
+        android:layout_height="@dimen/recycler_item_image_size"
+        android:src="@drawable/ic_non_image_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/iv_def_description"/>
+
+    <TextView
+        android:id="@+id/tvFName"
+        style="@style/recycler_item_text_dark"
+
+        app:layout_constraintStart_toEndOf="@+id/ivEmployees"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Name Name Name Name Name" />
+
+    <TextView
+        android:id="@+id/tvAge"
+        style="@style/recycler_item_text_default"
+
+        app:layout_constraintStart_toEndOf="@+id/ivEmployees"
+        app:layout_constraintTop_toBottomOf="@+id/tvFName"
+        tools:text="100 лет" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
