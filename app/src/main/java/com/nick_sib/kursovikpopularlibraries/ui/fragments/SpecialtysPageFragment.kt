@@ -29,7 +29,7 @@ class SpecialtysPageFragment : MvpAppCompatFragment(), RoomView {
     }
 
     private val adapter: SpecialtysPageAdapter by lazy {
-        SpecialtysPageAdapter(presenter.specialtysPagePresenter, parentFragmentManager)
+        SpecialtysPageAdapter(presenter.specialtysPagePresenter, childFragmentManager)//parentFragmentManager)
     }
 
     override fun onCreateView(
