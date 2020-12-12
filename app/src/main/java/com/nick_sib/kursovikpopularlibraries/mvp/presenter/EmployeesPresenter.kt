@@ -13,7 +13,7 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class EmployeesPresenter(private val specialtyId: Long) : MvpPresenter<RoomView>() {
+class EmployeesPresenter(private val specialtyId: Long, private val isLandscape: Boolean) : MvpPresenter<RoomView>() {
 
     @Inject
     lateinit var employeesCache: IRoomDataCache
@@ -63,9 +63,14 @@ class EmployeesPresenter(private val specialtyId: Long) : MvpPresenter<RoomView>
 
         employeesListPresenter.itemClickListener = { itemView ->
             val employee = employeesListPresenter.employees[itemView.pos]
-            //Log.d("myLOG", "click: $employee")
-            router.navigateTo(Screens.EmployeeDetailsScreen(employee))
+            if (isLandscape) {
+                router.replaceScreen(Screens.EmployeeDetailsScreen(employee))
+            } else {
+                router.navigateTo(Screens.EmployeeDetailsScreen(employee))
+            }
         }
     }
+
+
 
 }

@@ -3,7 +3,6 @@ package com.nick_sib.kursovikpopularlibraries.mvp.presenter
 import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomDataCache
 import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomEmployee
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomViewDetails
-import com.nick_sib.kursovikpopularlibraries.navigation.Screens
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
@@ -45,8 +44,4 @@ class EmployeeDetailsPresenter(
         loadData()
     }
 
-    fun backPressed() : Boolean{
-        router.backTo(Screens.SpecialtysScreen())
-        return true
-    }
 }

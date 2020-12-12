@@ -13,10 +13,11 @@ import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomSpecialty
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
+//разделить
 class RoomDataCache(private val db: Database) : IRoomDataCache {
 
     override fun putData(allData: Employees): Completable = Completable.fromAction {
-        //очищаем таблицы
+        //очищаем все таблицы
         db.clearAllTables()
         //заполняем таблицы
         allData.response.forEach{employee ->
@@ -59,18 +60,3 @@ class RoomDataCache(private val db: Database) : IRoomDataCache {
     }
 
 }
-/*override fun putRepos(repositories: List<GithubRepository>, user: GithubUser): Completable =
-        Completable.fromAction{
-            val roomUser = db.userDao.findByLogin(user.login)
-            val roomRepos = repositories.map {
-                RoomGithubRepository(it.id, it.name, it.forksCount, roomUser?.id ?: 0L) }
-            db.repositoryDao.insert(roomRepos)
-        }
-
-    override fun getRepos(user: GithubUser): Single<List<GithubRepository>> =
-        Single.fromCallable {
-            val roomUser = db.userDao.findByLogin(user.login)
-            roomUser?.run{
-                db.repositoryDao.findForUser(id).map { GithubRepository(it.id, it.name, it.forksCount) }
-            } ?: throw RuntimeException("No such user in cache")
-        }*/

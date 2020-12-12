@@ -10,17 +10,10 @@ interface EmployeeDao {
 
     @Update
     fun update(user: RoomEmployee)
-    @Update
-    fun update(vararg users: RoomEmployee)
-    @Update
-    fun update(users: List<RoomEmployee>)
+
 
     @Delete
     fun delete(user: RoomEmployee)
-    @Delete
-    fun delete(vararg users: RoomEmployee)
-    @Delete
-    fun delete(users: List<RoomEmployee>)
 
     @Query("SELECT * FROM RoomEmployee")
     fun getAll(): List<RoomEmployee>

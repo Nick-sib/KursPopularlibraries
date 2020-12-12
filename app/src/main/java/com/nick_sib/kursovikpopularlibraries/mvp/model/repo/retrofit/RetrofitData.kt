@@ -18,18 +18,9 @@ class RetrofitData(
                 cache.putData(it)
             }
         } else {
-            TODO("Not yet implemented")
+            Completable.fromAction{
+                
+            }
         }
-            //Single<List<Specialty>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
-//        if (isOnline) {
-//            api.getAllData()
-//                .flatMap {
-//                    cache.putData(it)
-//                    //cache.getSpecialty()
-//                }
-//        }
-//        else {
-//            //cache.getSpecialty()
-//        }
     }.subscribeOn(Schedulers.io())
 }

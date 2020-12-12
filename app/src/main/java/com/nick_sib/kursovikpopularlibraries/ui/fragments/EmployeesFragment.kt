@@ -1,5 +1,6 @@
 package com.nick_sib.kursovikpopularlibraries.ui.fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,12 +26,16 @@ class EmployeesFragment : MvpAppCompatFragment(), RoomView {
         }
     }
 
+    private val isLandscape: Boolean by lazy {
+        resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
+
     private var binding: FragmentEmployeesBinding? = null
 
     private var specialtyId: Long = 0
 
     private val presenter: EmployeesPresenter by moxyPresenter {
-        EmployeesPresenter(specialtyId)
+        EmployeesPresenter(specialtyId, isLandscape)
     }
 
     private val adapter: EmployeesRVAdapter by lazy {

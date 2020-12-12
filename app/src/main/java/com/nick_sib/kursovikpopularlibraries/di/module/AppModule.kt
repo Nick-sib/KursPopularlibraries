@@ -17,7 +17,4 @@ class AppModule(private val app: App) {
     @Provides
     fun mainThreadScheduler(): Scheduler = AndroidSchedulers.mainThread()
 
-//    @Provides
-//    fun ioThreadScheduler(): Scheduler = Schedulers.io()
-
 }

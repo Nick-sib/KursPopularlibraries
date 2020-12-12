@@ -8,7 +8,7 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class Screens {
     class SpecialtysScreen : SupportAppScreen() {
-        override fun getFragment() = SpecialtysPageFragment()//.newInstance()
+        override fun getFragment() = SpecialtysPageFragment()
     }
 
     class EmployeeDetailsScreen(private var employeeData: RoomEmployee) : SupportAppScreen() {

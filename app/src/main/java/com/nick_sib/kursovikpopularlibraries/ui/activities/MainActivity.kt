@@ -8,10 +8,12 @@ import com.nick_sib.kursovikpopularlibraries.R
 import com.nick_sib.kursovikpopularlibraries.databinding.ActivityMainBinding
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.MainPresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RetrofitView
+import com.nick_sib.kursovikpopularlibraries.navigation.Screens
 import com.nick_sib.kursovikpopularlibraries.ui.BackButtonListener
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
 
@@ -19,10 +21,13 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
+    @Inject
+    lateinit var router: Router
 
     private lateinit var binding: ActivityMainBinding
 
     private val navigator = SupportAppNavigator(this, supportFragmentManager, R.id.container)
+    private val navigatorLand = SupportAppNavigator(this, supportFragmentManager, R.id.pageContainer)
 
     private val presenter: MainPresenter by moxyPresenter {
         MainPresenter().apply {
@@ -33,6 +38,8 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
     init {
         App.instance.appComponent.inject(this)
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +58,9 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
     }
 
     override fun onBackPressed() {
+        binding.pageContainer?.run {
+            this@MainActivity.finish()
+        }
         supportFragmentManager.fragments.forEach {
             if (it is BackButtonListener && it.backPressed()) {
                 return
@@ -61,9 +71,19 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
 
     override fun beginLoading() {
         binding.progressBar.visibility = View.VISIBLE
+
     }
 
     override fun endLoading() {
+        binding.run {
+            pageContainer?.run {
+                navigatorHolder.setNavigator(navigatorLand)
+                router.newRootScreen(Screens.SpecialtysScreen())
+                navigatorHolder.setNavigator(navigator)
+            } ?:
+                router.newRootScreen(Screens.SpecialtysScreen())
+        }
+
         binding.progressBar.visibility = View.GONE
     }
 

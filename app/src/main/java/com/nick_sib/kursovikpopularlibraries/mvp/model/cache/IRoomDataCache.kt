@@ -6,6 +6,7 @@ import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomSpecialty
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
+//разделить
 interface IRoomDataCache {
     fun putData(allData: Employees): Completable
     fun getEmployees(specialtyId: Long): Single<List<RoomEmployee>>

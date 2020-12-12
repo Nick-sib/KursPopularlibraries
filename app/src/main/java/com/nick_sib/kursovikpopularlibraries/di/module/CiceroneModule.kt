@@ -22,5 +22,4 @@ class CiceroneModule {
     @Singleton
     @Provides
     fun router(): Router = cicerone.router
-
 }

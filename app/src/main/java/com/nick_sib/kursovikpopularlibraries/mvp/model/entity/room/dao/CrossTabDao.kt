@@ -23,7 +23,4 @@ interface CrossTabDao {
                     "WHERE RoomCrossTab.employeesId = :idEmployee"
     )
     fun getSpecialtyByUserId(idEmployee: Long): List<String>
-
-//    @Query("SELECT * FROM RoomSpecialty WHERE userId = :userId")
-//    fun findForUser(userId: Long): List<RoomSpecialty>
 }

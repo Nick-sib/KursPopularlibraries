@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.nick_sib.kursovikpopularlibraries.App
 import com.nick_sib.kursovikpopularlibraries.cropList
 import com.nick_sib.kursovikpopularlibraries.databinding.FragmentEmployeeDetailsBinding
@@ -11,11 +12,10 @@ import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomEmployee
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.EmployeeDetailsPresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomViewDetails
 import com.nick_sib.kursovikpopularlibraries.mvp.view.image.GlideImageLoader
-import com.nick_sib.kursovikpopularlibraries.ui.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class EmployeeDetailsFragment: MvpAppCompatFragment(), RoomViewDetails<List<String>>, BackButtonListener {
+class EmployeeDetailsFragment: MvpAppCompatFragment(), RoomViewDetails<List<String>> {
 
 
     companion object {
@@ -78,9 +78,7 @@ class EmployeeDetailsFragment: MvpAppCompatFragment(), RoomViewDetails<List<Stri
     }
 
     override fun showError(errorText: String) {
-        //TODO("Not yet implemented")
+        Toast.makeText(context, errorText, Toast.LENGTH_LONG).show()
     }
-
-    override fun backPressed(): Boolean = presenter.backPressed()
 
 }

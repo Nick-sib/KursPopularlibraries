@@ -25,9 +25,4 @@ class CacheModule {
     @Provides
     fun dataCache(database: Database): IRoomDataCache = RoomDataCache(database)
 
-
-//    @Singleton
-//    @Provides
-//    fun userRepositoriesCache(database: Database): IGithubReposCache = RoomGithubReposCache(database)
-
 }

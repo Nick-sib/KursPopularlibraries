@@ -1,7 +1,6 @@
 package com.nick_sib.kursovikpopularlibraries.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,6 @@ import moxy.ktx.moxyPresenter
 
 class SpecialtysPageFragment : MvpAppCompatFragment(), RoomView {
 
-//    companion object {
-//        fun newInstance() = SpecialtysPageFragment()
-//    }
-
     private var binding: FragmentSpecialtysBinding? = null
 
     private val presenter: SpecialitysPresenter by moxyPresenter {
@@ -29,7 +24,7 @@ class SpecialtysPageFragment : MvpAppCompatFragment(), RoomView {
     }
 
     private val adapter: SpecialtysPageAdapter by lazy {
-        SpecialtysPageAdapter(presenter.specialtysPagePresenter, childFragmentManager)//parentFragmentManager)
+        SpecialtysPageAdapter(presenter.specialtysPagePresenter, childFragmentManager)
     }
 
     override fun onCreateView(
@@ -39,16 +34,6 @@ class SpecialtysPageFragment : MvpAppCompatFragment(), RoomView {
     ): View = FragmentSpecialtysBinding.inflate(inflater, container, false).let {
         binding = it
         it.root
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("myLOG", "onPause: ")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("myTAG", "onResume: ")
     }
 
 
