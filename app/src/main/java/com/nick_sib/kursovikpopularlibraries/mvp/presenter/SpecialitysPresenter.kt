@@ -1,7 +1,7 @@
 package com.nick_sib.kursovikpopularlibraries.mvp.presenter
 
 
-import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomDataCache
+import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomSpecialtyCache
 import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomSpecialty
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.list.ISpecialtysPagePresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomView
@@ -12,9 +12,8 @@ import javax.inject.Inject
 
 class SpecialitysPresenter : MvpPresenter<RoomView>() {
 
-    @Inject lateinit var specialtysCache: IRoomDataCache
+    @Inject lateinit var specialtysCache: IRoomSpecialtyCache
     @Inject lateinit var mainThreadScheduler: Scheduler
-
 
     class SpecialtysPagePresenter: ISpecialtysPagePresenter {
         val specialtys = mutableListOf<RoomSpecialty>()
@@ -27,7 +26,7 @@ class SpecialitysPresenter : MvpPresenter<RoomView>() {
     val specialtysPagePresenter = SpecialtysPagePresenter()
 
     private fun loadData(){
-        specialtysCache.getSpecialty()
+        specialtysCache.getAllSpecialty()
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainThreadScheduler)
                 .subscribe({ specialtys ->
@@ -45,6 +44,11 @@ class SpecialitysPresenter : MvpPresenter<RoomView>() {
         super.onFirstViewAttach()
         viewState.initView()
         loadData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
     }
 
 }

@@ -1,10 +1,10 @@
 package com.nick_sib.kursovikpopularlibraries.di
 
+
+import com.nick_sib.kursovikpopularlibraries.di.employees.EmployeesSubComponent
+import com.nick_sib.kursovikpopularlibraries.di.main.MainSubComponent
 import com.nick_sib.kursovikpopularlibraries.di.module.*
-import com.nick_sib.kursovikpopularlibraries.mvp.presenter.EmployeeDetailsPresenter
-import com.nick_sib.kursovikpopularlibraries.mvp.presenter.EmployeesPresenter
-import com.nick_sib.kursovikpopularlibraries.mvp.presenter.SpecialitysPresenter
-import com.nick_sib.kursovikpopularlibraries.mvp.presenter.MainPresenter
+import com.nick_sib.kursovikpopularlibraries.di.specialty.SpecialtySubComponent
 import com.nick_sib.kursovikpopularlibraries.ui.activities.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -14,16 +14,15 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         CiceroneModule::class,
-        CacheModule::class,
-        ApiModule::class,
-        RepoModule::class
+        DataBaseModule::class,
+        ApiModule::class
     ]
 )
 
 interface AppComponent {
+    fun employeesSubComponent() : EmployeesSubComponent
+    fun specialtySubComponent() : SpecialtySubComponent
+    fun mainSubComponent() : MainSubComponent
+
     fun inject(mainActivity: MainActivity)
-    fun inject(mainPresenter: MainPresenter)
-    fun inject(specialtysPresenter: SpecialitysPresenter)
-    fun inject(employeesPresenter: EmployeesPresenter)
-    fun inject(employeeDetailsPresenter: EmployeeDetailsPresenter)
 }

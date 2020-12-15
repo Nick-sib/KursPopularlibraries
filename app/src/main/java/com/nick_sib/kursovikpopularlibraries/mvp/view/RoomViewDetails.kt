@@ -9,4 +9,5 @@ interface RoomViewDetails<T> : MvpView {
     fun initView()
     fun updateData(data: T)
     fun showError(errorText: String)
+    fun release()
 }

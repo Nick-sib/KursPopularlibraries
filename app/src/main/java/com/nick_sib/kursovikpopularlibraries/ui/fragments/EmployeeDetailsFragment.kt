@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.nick_sib.kursovikpopularlibraries.App
 import com.nick_sib.kursovikpopularlibraries.cropList
 import com.nick_sib.kursovikpopularlibraries.databinding.FragmentEmployeeDetailsBinding
+import com.nick_sib.kursovikpopularlibraries.di.employeedetails.EmployeeDetailsSubComponent
 import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomEmployee
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.EmployeeDetailsPresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomViewDetails
@@ -15,8 +16,9 @@ import com.nick_sib.kursovikpopularlibraries.mvp.view.image.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
+/**Детальная информация сотрудника
+ * */
 class EmployeeDetailsFragment: MvpAppCompatFragment(), RoomViewDetails<List<String>> {
-
 
     companion object {
         private val EXTRA_DATA = EmployeeDetailsFragment::class.java.name + "EXTRA_DATA"
@@ -30,10 +32,12 @@ class EmployeeDetailsFragment: MvpAppCompatFragment(), RoomViewDetails<List<Stri
 
     private lateinit var employee: RoomEmployee
     private var binding: FragmentEmployeeDetailsBinding? = null
+    private var employeeDetailsSubComponent: EmployeeDetailsSubComponent? = null
 
     private val presenter: EmployeeDetailsPresenter by moxyPresenter {
+        employeeDetailsSubComponent = App.instance.initEmployeeDetailsSubComponent()
         EmployeeDetailsPresenter(employee).apply {
-            App.instance.appComponent.inject(this)
+            employeeDetailsSubComponent?.inject(this)
         }
     }
 
@@ -79,6 +83,11 @@ class EmployeeDetailsFragment: MvpAppCompatFragment(), RoomViewDetails<List<Stri
 
     override fun showError(errorText: String) {
         Toast.makeText(context, errorText, Toast.LENGTH_LONG).show()
+    }
+
+    override fun release() {
+        employeeDetailsSubComponent = null
+        App.instance.releaseEmployeeDetailsSubComponent()
     }
 
 }

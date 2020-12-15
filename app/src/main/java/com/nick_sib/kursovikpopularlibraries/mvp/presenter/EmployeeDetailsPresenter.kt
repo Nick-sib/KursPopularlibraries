@@ -1,6 +1,7 @@
 package com.nick_sib.kursovikpopularlibraries.mvp.presenter
 
-import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomDataCache
+
+import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomEmployeeDetailsCache
 import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomEmployee
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomViewDetails
 import io.reactivex.rxjava3.core.Scheduler
@@ -9,12 +10,17 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
+/**Часть данных сотрудника загружается из инстанса (RoomEmployee) фрагмента,
+ * часть берется из БД (Specialty)*/
+
 class EmployeeDetailsPresenter(
         private val employeeData: RoomEmployee
 ): MvpPresenter<RoomViewDetails<List<String>>>() {
 
+    private val errorMessage = "Данные пользователя не загружены"
+
     @Inject
-    lateinit var employeeDetailsCache: IRoomDataCache
+    lateinit var employeeDetailsCache: IRoomEmployeeDetailsCache
     @Inject
     lateinit var mainThreadScheduler: Scheduler
     @Inject
@@ -24,7 +30,7 @@ class EmployeeDetailsPresenter(
     private fun loadData(){
         viewState.initView()
         employeeData.id?.run {
-            employeeDetailsCache.getSpecialtyByUserId(this)
+            employeeDetailsCache.getSpecialtyByEmployeeId(this)
                     .subscribeOn(Schedulers.io())
                     .observeOn(mainThreadScheduler)
                     .subscribe({
@@ -34,14 +40,18 @@ class EmployeeDetailsPresenter(
                             viewState.showError(this)
                         }
                     })
-        } ?: viewState.showError("Данные пользователя не загружены")
-
+        } ?: viewState.showError(errorMessage)
     }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.initView()
         loadData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
     }
 
 }

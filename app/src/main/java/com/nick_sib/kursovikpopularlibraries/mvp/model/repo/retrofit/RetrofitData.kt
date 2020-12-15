@@ -1,10 +1,13 @@
 package com.nick_sib.kursovikpopularlibraries.mvp.model.repo.retrofit
 
+
 import com.nick_sib.kursovikpopularlibraries.mvp.model.api.IDataSource
 import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomDataCache
 import com.nick_sib.kursovikpopularlibraries.mvp.model.repo.IRepoAllData
+import com.nick_sib.kursovikpopularlibraries.mvp.model.throws.ThrowableConnectAndDataBase
 import com.nick_sib.kursovikpopularlibraries.mvp.network.INetworkStatus
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RetrofitData(
@@ -18,9 +21,12 @@ class RetrofitData(
                 cache.putData(it)
             }
         } else {
-            Completable.fromAction{
-                
-            }
+            throw ThrowableConnectAndDataBase()
         }
+    }.subscribeOn(Schedulers.io())
+
+
+    override fun waitInternet(): Observable<Boolean> = networkStatus.isOnline().takeUntil{ isOnline ->
+        isOnline == true
     }.subscribeOn(Schedulers.io())
 }

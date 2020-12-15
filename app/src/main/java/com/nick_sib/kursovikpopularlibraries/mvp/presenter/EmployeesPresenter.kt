@@ -1,7 +1,6 @@
 package com.nick_sib.kursovikpopularlibraries.mvp.presenter
 
-import com.nick_sib.kursovikpopularlibraries.App
-import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomDataCache
+import com.nick_sib.kursovikpopularlibraries.mvp.model.cache.IRoomEmployeeCache
 import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomEmployee
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.list.IEmployeeListPresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomView
@@ -13,18 +12,21 @@ import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
+/**Если ориентация экрана горизонтальная тогда не накапливаем кэш навигатора
+ * */
+
 class EmployeesPresenter(private val specialtyId: Long, private val isLandscape: Boolean) : MvpPresenter<RoomView>() {
 
     @Inject
-    lateinit var employeesCache: IRoomDataCache
+    lateinit var employeesCache: IRoomEmployeeCache
     @Inject
     lateinit var mainThreadScheduler: Scheduler
     @Inject
     lateinit var router: Router
 
-    init {
-        App.instance.appComponent.inject(this)
-    }
+//    init {
+//        App.instance.appComponent.inject(this)
+//    }
 
     class EmployeesListPresenter : IEmployeeListPresenter {
         val employees = mutableListOf<RoomEmployee>()
@@ -42,7 +44,7 @@ class EmployeesPresenter(private val specialtyId: Long, private val isLandscape:
     val employeesListPresenter = EmployeesListPresenter()
 
     private fun loadData(){
-        employeesCache.getEmployees(specialtyId)
+        employeesCache.getEmployeesBySpecialtyId(specialtyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainThreadScheduler)
                 .subscribe({ employees ->
@@ -71,6 +73,9 @@ class EmployeesPresenter(private val specialtyId: Long, private val isLandscape:
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
+    }
 
 }

@@ -16,4 +16,13 @@
     <string name="standing_years_few">%d years</string>
     <string name="standing_years_many">%d years</string>
     <string name="standing_years_other">%d years</string>
+
+    <string name="snack_button_close">Закрыть</string>
+    <string name="snack_button_gotit">Понятно</string>
+
+    <string name="snack_message_internet_and_db">Нет интернет соединения, ждём данных</string>
+    <string name="snack_message_internet_only">Так как нет интернет соединения загрузились с устаревшими данными!</string>
+
+
+
 </resources>

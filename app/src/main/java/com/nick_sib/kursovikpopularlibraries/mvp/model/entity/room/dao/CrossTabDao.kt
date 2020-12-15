@@ -22,5 +22,8 @@ interface CrossTabDao {
                     "FROM  RoomCrossTab INNER JOIN RoomSpecialty ON RoomCrossTab.specialtyId = RoomSpecialty.specialtyId " +
                     "WHERE RoomCrossTab.employeesId = :idEmployee"
     )
-    fun getSpecialtyByUserId(idEmployee: Long): List<String>
+    fun getSpecialtyByEmployeeId(idEmployee: Long): List<String>
+
+    @Query("SELECT COUNT(employeesId) FROM RoomCrossTab")
+    fun getEmployeesCount(): Int
 }

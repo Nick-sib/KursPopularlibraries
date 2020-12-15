@@ -9,7 +9,8 @@ import javax.inject.Singleton
 
 @Module
 class CiceroneModule {
-
+/**Модуль отвечающий за навигацию используется библиотека Cicerone
+ * */
     var cicerone: Cicerone<Router> = Cicerone.create()
 
     @Provides

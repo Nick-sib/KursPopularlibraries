@@ -12,10 +12,10 @@ import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomEmployee
 import com.nick_sib.kursovikpopularlibraries.mvp.model.entity.room.RoomSpecialty
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-//разделить
 class RoomDataCache(private val db: Database) : IRoomDataCache {
-
+    //Кешируем полный список данных (специальности и сотрудники плюс таблица зависимостей)
     override fun putData(allData: Employees): Completable = Completable.fromAction {
         //очищаем все таблицы
         db.clearAllTables()
@@ -47,16 +47,9 @@ class RoomDataCache(private val db: Database) : IRoomDataCache {
         }
     }
 
-    override fun getSpecialty(): Single<List<RoomSpecialty>> = Single.fromCallable {
-        db.specialtyDao.getAll()
-    }
-
-    override fun getEmployees(specialtyId: Long): Single<List<RoomEmployee>> = Single.fromCallable {
-        db.employeeDao.getEmployeesBySpecialtyId(specialtyId)
-    }
-
-    override fun getSpecialtyByUserId(userId: Long): Single<List<String>> = Single.fromCallable {
-        db.crossTab.getSpecialtyByUserId(userId)
-    }
-
+    //проверяем надичия данных в БД тк данные по внешнему ключу таблицы удаляются каскадом то
+    //наличие хоть одной записи в таблице значит то есть что загружать
+    override fun getEmployeesCount(): Single<Int> = Single.fromCallable {
+        db.crossTab.getEmployeesCount()
+    }.subscribeOn(Schedulers.io())
 }

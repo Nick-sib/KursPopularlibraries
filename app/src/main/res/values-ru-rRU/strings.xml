@@ -7,4 +7,8 @@
     <string name="standing_years_few">%d года</string>
     <string name="standing_years_many">%d лет</string>
     <string name="standing_years_other">%d лет</string>
+    <string name="snack_button_close">Exit</string>
+    <string name="snack_button_gotit">GOT IT</string>
+    <string name="snack_message_internet_and_db">No internet connection, waiting for data</string>
+    <string name="snack_message_internet_only">Because no internet connection is loaded stale data!</string>
 </resources>

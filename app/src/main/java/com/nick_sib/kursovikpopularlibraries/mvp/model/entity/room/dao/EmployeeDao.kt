@@ -23,4 +23,6 @@ interface EmployeeDao {
             "WHERE RoomCrossTab.specialtyId = :sId ORDER BY RoomEmployee.f_name, RoomEmployee.l_name"
     )
     fun getEmployeesBySpecialtyId(sId: Long): List<RoomEmployee>
+
+
 }

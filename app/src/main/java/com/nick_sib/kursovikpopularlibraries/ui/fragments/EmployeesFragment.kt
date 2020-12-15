@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.nick_sib.kursovikpopularlibraries.App
 import com.nick_sib.kursovikpopularlibraries.databinding.FragmentEmployeesBinding
+import com.nick_sib.kursovikpopularlibraries.di.employees.EmployeesSubComponent
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.EmployeesPresenter
-import com.nick_sib.kursovikpopularlibraries.mvp.view.image.GlideImageLoader
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomView
+import com.nick_sib.kursovikpopularlibraries.mvp.view.image.GlideImageLoader
 import com.nick_sib.kursovikpopularlibraries.ui.adapter.EmployeesRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
+/**Список сотрудников по выбранной специальности
+ * */
 class EmployeesFragment : MvpAppCompatFragment(), RoomView {
 
     companion object {
@@ -31,11 +35,15 @@ class EmployeesFragment : MvpAppCompatFragment(), RoomView {
     }
 
     private var binding: FragmentEmployeesBinding? = null
+    private var employeesSubComponent: EmployeesSubComponent? = null
 
     private var specialtyId: Long = 0
 
     private val presenter: EmployeesPresenter by moxyPresenter {
-        EmployeesPresenter(specialtyId, isLandscape)
+        employeesSubComponent = App.instance.initEmployeesSubComponent()
+        EmployeesPresenter(specialtyId, isLandscape).apply {
+            employeesSubComponent?.inject(this)
+        }
     }
 
     private val adapter: EmployeesRVAdapter by lazy {
@@ -78,6 +86,11 @@ class EmployeesFragment : MvpAppCompatFragment(), RoomView {
 
     override fun showError(errorText: String) {
         Toast.makeText(context, errorText, Toast.LENGTH_LONG).show()
+    }
+
+    override fun release() {
+        employeesSubComponent = null
+        App.instance.releaseEmployeesSubComponent()
     }
 
 }

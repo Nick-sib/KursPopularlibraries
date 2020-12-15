@@ -6,6 +6,8 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 
 interface IDataSource {
+/**Retrofit непосредственно загрузка данных с ветки testTask.json
+ * */
     @GET("testTask.json")
     fun getAllData(): Single<Employees>
 

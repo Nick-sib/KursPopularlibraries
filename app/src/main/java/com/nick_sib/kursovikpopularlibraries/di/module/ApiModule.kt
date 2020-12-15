@@ -15,7 +15,8 @@ import javax.inject.Singleton
 
 @Module
 class ApiModule {
-/**По заданию в качестве baseUrl выдвалось 'http://gitlab.65apps.com/65gb/static/raw/master/'
+/**Модуль отвечающий за загрузку данных из интернета используя библиотеку Retrofit
+ * По заданию в качестве baseUrl выдвалось 'http://gitlab.65apps.com/65gb/static/raw/master/'
  * проблему безопасности можно было решать через создания доверенной зоны (xml), но backend
  * gitlab.65apps.com проходит проверку сертификата https поэтому просто заменим сертификат
  * */

@@ -1,6 +1,5 @@
 package com.nick_sib.kursovikpopularlibraries
 
-
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -19,9 +18,7 @@ const val DATE_FORMAT = "dd.MM.yyyy"
 @SuppressLint("SimpleDateFormat")
 val outputDateFormat = SimpleDateFormat(DATE_FORMAT)
 
-
 fun String.dbNameFormat() = this.toLowerCase(Locale.ROOT).capitalize(Locale.ROOT)
-
 
 @SuppressLint("SimpleDateFormat")
 fun String?.dbDataFormat() =

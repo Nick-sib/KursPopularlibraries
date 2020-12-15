@@ -8,5 +8,6 @@ import moxy.viewstate.strategy.StateStrategyType
 interface RetrofitView : MvpView {
     fun beginLoading()
     fun endLoading()
-    fun showError(errorText: String)
+    fun showError(error: Throwable)
+    fun hideShack()
 }

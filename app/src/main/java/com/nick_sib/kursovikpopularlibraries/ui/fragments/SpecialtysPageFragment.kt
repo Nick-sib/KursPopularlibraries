@@ -7,19 +7,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.nick_sib.kursovikpopularlibraries.App
 import com.nick_sib.kursovikpopularlibraries.databinding.FragmentSpecialtysBinding
+import com.nick_sib.kursovikpopularlibraries.di.specialty.SpecialtySubComponent
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.SpecialitysPresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RoomView
 import com.nick_sib.kursovikpopularlibraries.ui.adapter.SpecialtysPageAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
+/**Страницы специальностей
+ * */
 class SpecialtysPageFragment : MvpAppCompatFragment(), RoomView {
 
     private var binding: FragmentSpecialtysBinding? = null
+    private var specialtySubComponent: SpecialtySubComponent? = null
 
     private val presenter: SpecialitysPresenter by moxyPresenter {
+        specialtySubComponent = App.instance.initSpecialtySubComponent()
         SpecialitysPresenter().apply {
-            App.instance.appComponent.inject(this)
+            specialtySubComponent?.inject(this)
         }
     }
 
@@ -56,5 +61,10 @@ class SpecialtysPageFragment : MvpAppCompatFragment(), RoomView {
 
     override fun showError(errorText: String) {
         Toast.makeText(context, errorText, Toast.LENGTH_LONG).show()
+    }
+
+    override fun release() {
+        specialtySubComponent = null
+        App.instance.releaseSpecialtySubComponent()
     }
 }
