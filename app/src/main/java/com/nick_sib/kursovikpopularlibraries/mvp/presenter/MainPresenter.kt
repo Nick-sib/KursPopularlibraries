@@ -6,8 +6,10 @@ import com.nick_sib.kursovikpopularlibraries.mvp.model.repo.IRepoAllData
 import com.nick_sib.kursovikpopularlibraries.mvp.model.throws.ThrowableConnectAndDataBase
 import com.nick_sib.kursovikpopularlibraries.mvp.model.throws.ThrowableConnectOnly
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RetrofitView
+import com.nick_sib.kursovikpopularlibraries.navigation.Screens
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
+import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 /**При загрузке пробуем загрузить данные из интернета если это не удалось
@@ -16,6 +18,7 @@ import javax.inject.Inject
  * */
 class MainPresenter : MvpPresenter<RetrofitView>() {
 
+    @Inject lateinit var router: Router
     @Inject lateinit var usersRepo: IRepoAllData
     @Inject lateinit var mainThreadScheduler: Scheduler
     @Inject lateinit var dataBaseCache: IRoomDataCache
@@ -70,5 +73,13 @@ class MainPresenter : MvpPresenter<RetrofitView>() {
                 }, {
                     viewState.showError(it)
                 })
+    }
+
+    fun showSpecialtyScreen(){
+        router.newRootScreen(Screens.SpecialtysScreen())
+    }
+
+    fun backClicked() {
+        router.exit()
     }
 }

@@ -1,5 +1,6 @@
 package com.nick_sib.kursovikpopularlibraries.ui.activities
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
@@ -11,12 +12,10 @@ import com.nick_sib.kursovikpopularlibraries.mvp.model.throws.ThrowableConnectAn
 import com.nick_sib.kursovikpopularlibraries.mvp.model.throws.ThrowableConnectOnly
 import com.nick_sib.kursovikpopularlibraries.mvp.presenter.MainPresenter
 import com.nick_sib.kursovikpopularlibraries.mvp.view.RetrofitView
-import com.nick_sib.kursovikpopularlibraries.navigation.Screens
 import com.nick_sib.kursovikpopularlibraries.ui.BackButtonListener
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
 
@@ -25,8 +24,6 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
-    @Inject
-    lateinit var router: Router
 
     private lateinit var binding: ActivityMainBinding
     private var snack: Snackbar? = null
@@ -35,6 +32,10 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
     private val navigatorLand = SupportAppNavigator(this, supportFragmentManager, R.id.pageContainer)
 
     private var mainSubComponent: MainSubComponent? = null
+
+    private val isLandOrientation: Boolean by lazy {
+        resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
 
     private val presenter: MainPresenter by moxyPresenter {
         mainSubComponent = App.instance.initMainSubComponent()
@@ -64,7 +65,7 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
     }
 
     override fun onBackPressed() {
-        binding.pageContainer?.run {
+        if (isLandOrientation)  {
             closeApp()
         }
         supportFragmentManager.fragments.forEach {
@@ -72,7 +73,7 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
                 return
             }
         }
-        router.exit()
+        presenter.backClicked()
     }
 
     override fun beginLoading() {
@@ -82,15 +83,15 @@ class MainActivity: MvpAppCompatActivity(), RetrofitView {
 
     override fun endLoading() {
         binding.run {
-            pageContainer?.run {
+            if (isLandOrientation) {
                 navigatorHolder.setNavigator(navigatorLand)
-                router.newRootScreen(Screens.SpecialtysScreen())
+                presenter.showSpecialtyScreen()
                 navigatorHolder.setNavigator(navigator)
-            } ?:
-                router.newRootScreen(Screens.SpecialtysScreen())
+            } else {
+                presenter.showSpecialtyScreen()
+            }
         }
         binding.progressBar.visibility = View.GONE
-        release()
     }
 
     override fun showError(error: Throwable) {
